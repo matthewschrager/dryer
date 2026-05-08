@@ -1,0 +1,15 @@
+[package]
+name = "dryer"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[[bin]]
+name = "dryer"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+dryer-core = { path = "../dryer-core" }
+serde_json.workspace = true
