@@ -141,10 +141,13 @@ fn max_possible_score(left: &Candidate, right: &Candidate) -> f64 {
 }
 
 fn duplicate_language(left: &Candidate, right: &Candidate) -> String {
-    if left.language.family() == right.language.family() {
-        left.language.family().to_string()
-    } else {
-        "cross-language".to_string()
+    if left.language.family() != right.language.family() {
+        return "cross-language".to_string();
+    }
+
+    match (left.language, right.language) {
+        (crate::language::Language::Daml, crate::language::Language::Daml) => "daml".to_string(),
+        _ => left.language.family().to_string(),
     }
 }
 

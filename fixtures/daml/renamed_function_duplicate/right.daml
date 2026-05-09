@@ -1,0 +1,11 @@
+module TradeTwo where
+
+settleTransfer transfer = do
+  let legs = filter (\leg -> leg.amount > 0.0) transfer.legs
+      total = sum (map (.amount) legs)
+      routed = map (\leg -> (leg.sender, leg.receiver, leg.amount)) legs
+  if total <= 0.0 then
+    abort "settleTransfer: empty trade"
+  else do
+    mapA_ (\leg -> debug (show leg)) routed
+    pure ()

@@ -105,6 +105,10 @@ fn is_candidate_node(language: Language, node: tree_sitter::Node<'_>) -> bool {
             node.kind(),
             "function_declaration" | "method_definition" | "arrow_function"
         ),
+        Language::Haskell | Language::Daml => matches!(
+            node.kind(),
+            "function" | "bind" | "data_type" | "newtype" | "class" | "instance"
+        ),
     }
 }
 
@@ -113,6 +117,15 @@ fn has_body(node: tree_sitter::Node<'_>) -> bool {
         "function_item" => child_kind_exists(node, "block"),
         "function_declaration" | "method_definition" => child_kind_exists(node, "statement_block"),
         "arrow_function" | "closure_expression" => true,
+        "function" | "bind" => {
+            child_kind_exists(node, "match") || node.child_by_field_name("expression").is_some()
+        }
+        "data_type" | "newtype" => {
+            child_kind_exists(node, "data_constructors")
+                || child_kind_exists(node, "gadt_constructors")
+        }
+        "class" => child_kind_exists(node, "class_declarations"),
+        "instance" => child_kind_exists(node, "instance_declarations"),
         _ => true,
     }
 }
@@ -133,6 +146,11 @@ fn candidate_kind(language: Language, node: tree_sitter::Node<'_>) -> &'static s
     match (language, node.kind()) {
         (Language::Rust, "function_item") => "function",
         (Language::Rust, "closure_expression") => "closure",
+        (Language::Haskell | Language::Daml, "function" | "bind") => "function",
+        (Language::Haskell | Language::Daml, "data_type") => "data",
+        (Language::Haskell | Language::Daml, "newtype") => "newtype",
+        (Language::Haskell | Language::Daml, "class") => "class",
+        (Language::Haskell | Language::Daml, "instance") => "instance",
         (_, "function_declaration") => "function",
         (_, "method_definition") => "method",
         (_, "arrow_function") => "arrow_function",

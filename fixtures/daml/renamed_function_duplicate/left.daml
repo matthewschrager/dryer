@@ -1,0 +1,11 @@
+module TradeOne where
+
+settleTrade trade = do
+  let legs = filter (\leg -> leg.amount > 0.0) trade.legs
+      total = sum (map (.amount) legs)
+      routed = map (\leg -> (leg.sender, leg.receiver, leg.amount)) legs
+  if total <= 0.0 then
+    abort "settleTrade: empty trade"
+  else do
+    mapA_ (\leg -> debug (show leg)) routed
+    pure ()
