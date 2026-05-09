@@ -8,7 +8,9 @@ use dryer_core::{
 
 #[derive(Debug, Parser)]
 #[command(name = "dryer")]
-#[command(about = "Find structural duplicate candidates in Rust and TypeScript code")]
+#[command(
+    about = "Find structural duplicate candidates in Rust, TypeScript, Haskell, and Daml code"
+)]
 struct Args {
     #[arg(value_name = "FILE_OR_DIRECTORY")]
     paths: Vec<PathBuf>,
@@ -59,6 +61,8 @@ enum CliLanguage {
     Rust,
     #[value(name = "typescript")]
     TypeScript,
+    Haskell,
+    Daml,
 }
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
@@ -114,6 +118,8 @@ fn build_config(args: &Args) -> Result<Config> {
             CliLanguage::All => LanguageFilter::All,
             CliLanguage::Rust => LanguageFilter::Rust,
             CliLanguage::TypeScript => LanguageFilter::TypeScript,
+            CliLanguage::Haskell => LanguageFilter::Haskell,
+            CliLanguage::Daml => LanguageFilter::Daml,
         };
     }
     if let Some(format) = args.format {

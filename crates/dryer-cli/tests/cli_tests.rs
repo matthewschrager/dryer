@@ -42,6 +42,21 @@ fn cli_accepts_typescript_language_value() {
 }
 
 #[test]
+fn cli_accepts_daml_language_value() {
+    let output = Command::new(env!("CARGO_BIN_EXE_dryer"))
+        .arg("--language")
+        .arg("daml")
+        .arg("--json")
+        .arg(fixture_path("daml/renamed_function_duplicate"))
+        .output()
+        .expect("run dryer");
+
+    assert!(output.status.success(), "{output:#?}");
+    let stdout = String::from_utf8(output.stdout).expect("utf8 stdout");
+    assert!(stdout.contains("\"language\": \"daml\""), "{stdout}");
+}
+
+#[test]
 fn cli_rejects_invalid_language_value() {
     let output = Command::new(env!("CARGO_BIN_EXE_dryer"))
         .arg("--language")

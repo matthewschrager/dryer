@@ -101,6 +101,26 @@ fn tsx_components_match_after_renaming() {
 }
 
 #[test]
+fn haskell_functions_match_after_renaming() {
+    let report = run_fixture(
+        "haskell/renamed_function_duplicate",
+        LanguageFilter::Haskell,
+    );
+
+    assert_pair_named(&report, "buildOrderRows", "buildInvoiceRows");
+    assert!(report.candidates[0].score >= 0.82);
+}
+
+#[test]
+fn daml_functions_match_after_renaming() {
+    let report = run_fixture("daml/renamed_function_duplicate", LanguageFilter::Daml);
+
+    assert_pair_named(&report, "settleTrade", "settleTransfer");
+    assert!(report.candidates[0].score >= 0.82);
+    assert_eq!("daml", report.candidates[0].language);
+}
+
+#[test]
 fn typescript_different_control_flow_does_not_match() {
     let report = run_fixture(
         "typescript/negative_different_control_flow",

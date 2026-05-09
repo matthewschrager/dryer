@@ -9,6 +9,8 @@ pub enum Language {
     Rust,
     TypeScript,
     Tsx,
+    Haskell,
+    Daml,
 }
 
 impl Language {
@@ -27,6 +29,8 @@ impl Language {
                 }
             }
             Some("tsx") => Some(Self::Tsx),
+            Some("hs") | Some("lhs") => Some(Self::Haskell),
+            Some("daml") => Some(Self::Daml),
             _ => None,
         }
     }
@@ -36,6 +40,8 @@ impl Language {
             Self::Rust => "rust",
             Self::TypeScript => "typescript",
             Self::Tsx => "tsx",
+            Self::Haskell => "haskell",
+            Self::Daml => "daml",
         }
     }
 
@@ -43,6 +49,7 @@ impl Language {
         match self {
             Self::Rust => "rust",
             Self::TypeScript | Self::Tsx => "typescript",
+            Self::Haskell | Self::Daml => "haskell",
         }
     }
 }

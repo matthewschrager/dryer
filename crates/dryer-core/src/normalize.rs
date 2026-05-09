@@ -120,6 +120,11 @@ fn is_identifier(kind: &str) -> bool {
             | "scoped_type_identifier"
             | "namespace_identifier"
             | "label_identifier"
+            | "variable"
+            | "constructor"
+            | "field_name"
+            | "module"
+            | "name"
     )
 }
 
@@ -130,6 +135,10 @@ fn is_literal(kind: &str) -> bool {
             "string"
                 | "template_string"
                 | "number"
+                | "integer"
+                | "float"
+                | "char"
+                | "boolean"
                 | "regex"
                 | "true"
                 | "false"
@@ -179,6 +188,11 @@ fn meaningful_token(kind: &str) -> Option<&'static str> {
         "/=" => Some("/="),
         "%=" => Some("%="),
         "=>" => Some("=>"),
+        "::" => Some("::"),
+        "<-" | "←" => Some("<-"),
+        "->" | "→" => Some("->"),
+        "\\" | "λ" => Some("\\"),
+        "$" => Some("$"),
         ".." => Some(".."),
         "..=" => Some("..="),
         "&" => Some("&"),

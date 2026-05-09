@@ -75,6 +75,8 @@ fn matches_filter(language: Language, filter: &LanguageFilter) -> bool {
         LanguageFilter::TypeScript => {
             matches!(language, Language::TypeScript | Language::Tsx)
         }
+        LanguageFilter::Haskell => language == Language::Haskell,
+        LanguageFilter::Daml => language == Language::Daml,
     }
 }
 

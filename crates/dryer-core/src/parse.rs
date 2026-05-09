@@ -20,6 +20,7 @@ pub fn parse_source(language: Language, source: &str) -> Result<Tree> {
 fn grammar_for(language: Language) -> TsLanguage {
     match language {
         Language::Rust => tree_sitter_rust::LANGUAGE.into(),
+        Language::Haskell | Language::Daml => tree_sitter_haskell::LANGUAGE.into(),
         Language::TypeScript => tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
         Language::Tsx => tree_sitter_typescript::LANGUAGE_TSX.into(),
     }

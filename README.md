@@ -1,10 +1,11 @@
 # dryer
 
-`dryer` finds candidate duplicate Rust and TypeScript code by comparing
+`dryer` finds candidate duplicate Rust, TypeScript, Haskell, and Daml code by comparing
 normalized syntax structure instead of raw text.
 
 It is inspired by [`dry4clj`](https://github.com/unclebob/dry4clj), but uses
-Tree-sitter parsers for Rust, TypeScript, and TSX.
+Tree-sitter parsers for Rust, TypeScript, TSX, and Haskell. Daml files are
+parsed with the Haskell grammar and reported separately as Daml files.
 
 ## Usage
 
@@ -18,6 +19,7 @@ Examples:
 cargo run -p dryer -- crates web/src
 cargo run -p dryer -- --json --threshold 0.9 src
 cargo run -p dryer -- --language rust fixtures/rust
+cargo run -p dryer -- --language daml ~/projects/canton_experiment/daml
 ```
 
 Options:
@@ -26,7 +28,7 @@ Options:
 --threshold N          Minimum structural similarity score, default 0.82
 --min-lines N          Minimum source lines in a candidate, default 6
 --min-nodes N          Minimum normalized syntax nodes, default 35
---language L           all, rust, or typescript; default all
+--language L           all, rust, typescript, haskell, or daml; default all
 --format F             text, json, or sarif; default text
 --json                 Same as --format json
 --sarif                Same as --format sarif

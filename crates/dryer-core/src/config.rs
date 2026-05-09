@@ -12,6 +12,8 @@ pub enum LanguageFilter {
     All,
     Rust,
     TypeScript,
+    Haskell,
+    Daml,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
